@@ -85,13 +85,48 @@ fun PerformanceStep(
             Spacer(Modifier.height(16.dp))
             MineHostSlider(
                 value = draft.memoryMb.toFloat(),
-                onValueChange = { onDraftUpdate(draft.copy(memoryMb = (it / 128).toInt() * 128)) },
+                onValueChange = { onDraftUpdate(draft.copy(memoryMb = (it / 256).toInt() * 256)) },
                 valueRange = 512f..4096f
             )
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text("512 MB", style = MaterialTheme.typography.labelSmall, color = WizardTheme.SecondaryText)
                 Text("Recommended: 1024 MB", style = MaterialTheme.typography.labelSmall, color = WizardTheme.SecondaryText)
                 Text("4096 MB", style = MaterialTheme.typography.labelSmall, color = WizardTheme.SecondaryText)
+            }
+        }
+
+        // Performance Profile
+        Column {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    imageVector = Icons.Outlined.Speed,
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp),
+                    tint = WizardTheme.PrimaryBlue
+                )
+                Spacer(Modifier.width(8.dp))
+                Text("Performance Profile", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.ExtraBold))
+            }
+            Spacer(Modifier.height(12.dp))
+            
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(horizontal = 4.dp)
+            ) {
+                items(PerformanceProfile.entries) { profile ->
+                    ProfileCard(
+                        profile = profile,
+                        selected = draft.performanceProfile == profile,
+                        onClick = { 
+                            onDraftUpdate(draft.copy(
+                                performanceProfile = profile,
+                                memoryMb = profile.ramMb
+                            ))
+                        },
+                        modifier = Modifier.width(150.dp)
+                    )
+                }
             }
         }
 
@@ -139,37 +174,6 @@ fun PerformanceStep(
             }
         }
 
-        // Performance Profile
-        Column {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Outlined.Speed,
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp),
-                    tint = WizardTheme.PrimaryBlue
-                )
-                Spacer(Modifier.width(8.dp))
-                Text("Performance Profile", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.ExtraBold))
-            }
-            Spacer(Modifier.height(12.dp))
-            // Performance Profile
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                contentPadding = PaddingValues(horizontal = 16.dp)
-            ) {
-                items(PerformanceProfile.entries) { profile ->
-                    ProfileCard(
-                        profile = profile,
-                        selected = draft.performanceProfile == profile,
-                        onClick = { onDraftUpdate(draft.copy(performanceProfile = profile)) },
-                        modifier = Modifier.width(160.dp)
-                    )
-                }
-            }
-        }
-
         // Switches
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             SwitchRow(
@@ -188,7 +192,6 @@ fun PerformanceStep(
             )
         }
 
-
         WizardInfoBanner(
             text = "Recommended for this device: Balanced · 1024 MB\nThis provides the best balance of performance and stability."
         )
@@ -204,7 +207,7 @@ private fun ProfileCard(
 ) {
     Surface(
         onClick = onClick,
-        modifier = modifier,
+        modifier = modifier.height(150.dp),
         shape = RoundedCornerShape(WizardTheme.OptionCardRadius),
         color = Color.Transparent,
         border = androidx.compose.foundation.BorderStroke(
@@ -238,44 +241,54 @@ private fun ProfileCard(
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxSize()
             ) {
                 Box(
                     modifier = Modifier
-                        .size(48.dp)
+                        .size(42.dp)
                         .clip(RoundedCornerShape(12.dp))
                         .background(Color.Transparent),
                     contentAlignment = Alignment.Center
                 ) {
                     PerformanceArtwork(
                         profile = profile.label,
-                        modifier = Modifier.fillMaxSize().padding(6.dp)
+                        modifier = Modifier.fillMaxSize()
                     )
                 }
-                Spacer(Modifier.height(8.dp))
-                Text(
-                    profile.label,
-                    style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.ExtraBold),
-                    color = if (selected) WizardTheme.PrimaryBlue else WizardTheme.PrimaryText
-                )
-                Text(
-                    profile.description,
-                    style = MaterialTheme.typography.bodySmall.copy(fontSize = 8.sp, lineHeight = 10.sp),
-                    color = WizardTheme.SecondaryText,
-                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-                    minLines = 2
-                )
-                Spacer(Modifier.height(8.dp))
+                
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        profile.label,
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 15.sp
+                        ),
+                        color = if (selected) WizardTheme.PrimaryBlue else WizardTheme.PrimaryText
+                    )
+                    Text(
+                        profile.description,
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            fontSize = 11.sp, 
+                            lineHeight = 13.sp
+                        ),
+                        color = WizardTheme.SecondaryText,
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                        maxLines = 2,
+                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                    )
+                }
+
                 Surface(
                     color = if (profile == PerformanceProfile.BALANCED) Color(0xFFE8F1FF) else Color(0xFFF1F4F9),
                     shape = RoundedCornerShape(4.dp)
                 ) {
                     Text(
                         profile.tag,
-                        modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp),
+                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
                         style = MaterialTheme.typography.labelSmall.copy(
                             color = if (profile == PerformanceProfile.BALANCED) WizardTheme.PrimaryBlue else WizardTheme.SecondaryText,
-                            fontSize = 7.sp,
+                            fontSize = 9.sp,
                             fontWeight = FontWeight.Bold
                         )
                     )

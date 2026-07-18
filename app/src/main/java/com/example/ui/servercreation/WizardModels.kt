@@ -26,10 +26,10 @@ enum class Difficulty(val label: String) {
     HARD("Hard")
 }
 
-enum class PerformanceProfile(val label: String, val description: String, val tag: String) {
-    LOW_RESOURCE("Low Resource", "Best for low-end devices.", "Lower performance"),
-    BALANCED("Balanced", "Best balance of performance & stability.", "Recommended"),
-    PERFORMANCE("Performance", "Higher performance for powerful devices.", "Higher resource use")
+enum class PerformanceProfile(val label: String, val description: String, val tag: String, val ramMb: Int) {
+    LOW_RESOURCE("Low Resource", "Best for low-end devices.", "Lower performance", 768),
+    BALANCED("Balanced", "Best balance of performance & stability.", "Recommended", 1024),
+    PERFORMANCE("Performance", "Higher performance for powerful devices.", "Higher resource use", 2048)
 }
 
 enum class NetworkMode(val label: String, val description: String) {

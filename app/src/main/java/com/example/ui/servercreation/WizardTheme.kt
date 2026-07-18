@@ -36,10 +36,10 @@ object WizardTheme {
     
     // Spacing
     val HorizontalPadding = 20.dp
-    val HeaderToTitle = 8.dp
-    val TitleToSubtitle = 2.dp
-    val SubtitleToProgress = 16.dp
-    val ProgressToMainCard = 16.dp
+    val HeaderToTitle = 14.dp
+    val TitleToSubtitle = 4.dp
+    val SubtitleToProgress = 20.dp
+    val ProgressToMainCard = 20.dp
     val CardPadding = 20.dp
     val OptionSpacing = 12.dp
     

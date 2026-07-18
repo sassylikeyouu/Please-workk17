@@ -39,13 +39,6 @@ fun CreateServerWizardScreen(
     val currentStep by wizardViewModel.currentStep.collectAsState()
     val canContinue by wizardViewModel.canContinue.collectAsState()
 
-    val stepScrollStates = WizardStep.entries.associateWith { rememberScrollState() }
-    val currentScrollState = stepScrollStates[currentStep] ?: rememberScrollState()
-
-    LaunchedEffect(currentStep) {
-        currentScrollState.scrollTo(0)
-    }
-
     BackHandler {
         if (!wizardViewModel.previousStep()) {
             onBack()
@@ -70,7 +63,7 @@ fun CreateServerWizardScreen(
                     showProfile = false
                 )
                 
-                Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+                Column(modifier = Modifier.padding(horizontal = WizardTheme.HorizontalPadding)) {
                     Spacer(Modifier.height(WizardTheme.HeaderToTitle))
                     Text(
                         "Create New Server",
@@ -116,30 +109,29 @@ fun CreateServerWizardScreen(
         },
         containerColor = WizardTheme.Background
     ) { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(PaddingValues(
-                    top = padding.calculateTopPadding(),
-                    bottom = padding.calculateBottomPadding(),
-                    start = padding.calculateStartPadding(androidx.compose.ui.unit.LayoutDirection.Ltr),
-                    end = padding.calculateEndPadding(androidx.compose.ui.unit.LayoutDirection.Ltr)
-                ))
-                .verticalScroll(currentScrollState)
-                .padding(horizontal = 16.dp)
-        ) {
-            WizardCard {
-                when (currentStep) {
-                    WizardStep.BASICS -> BasicsStep(draft, wizardViewModel::setDraft)
-                    WizardStep.ENGINE -> EngineStep(draft, wizardViewModel::setDraft)
-                    WizardStep.VERSION -> VersionStep(draft, wizardViewModel::setDraft)
-                    WizardStep.WORLD -> WorldStep(draft, wizardViewModel::setDraft)
-                    WizardStep.PERFORMANCE -> PerformanceStep(draft, wizardViewModel::setDraft)
-                    WizardStep.NETWORK -> NetworkStep(draft, wizardViewModel::setDraft)
-                    WizardStep.REVIEW -> ReviewStep(draft, wizardViewModel::setDraft)
+        androidx.compose.runtime.key(currentStep) {
+            val scrollState = rememberScrollState()
+            
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .verticalScroll(scrollState)
+                    .padding(horizontal = WizardTheme.HorizontalPadding)
+            ) {
+                WizardCard {
+                    when (currentStep) {
+                        WizardStep.BASICS -> BasicsStep(draft, wizardViewModel::setDraft)
+                        WizardStep.ENGINE -> EngineStep(draft, wizardViewModel::setDraft)
+                        WizardStep.VERSION -> VersionStep(draft, wizardViewModel::setDraft)
+                        WizardStep.WORLD -> WorldStep(draft, wizardViewModel::setDraft)
+                        WizardStep.PERFORMANCE -> PerformanceStep(draft, wizardViewModel::setDraft)
+                        WizardStep.NETWORK -> NetworkStep(draft, wizardViewModel::setDraft)
+                        WizardStep.REVIEW -> ReviewStep(draft, wizardViewModel::setDraft)
+                    }
                 }
+                Spacer(Modifier.height(24.dp))
             }
-            Spacer(Modifier.height(24.dp))
         }
     }
 }
