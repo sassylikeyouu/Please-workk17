@@ -13,15 +13,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import coil.compose.SubcomposeAsyncImage
-import coil.request.ImageRequest
+import androidx.compose.ui.res.painterResource
 import com.example.ui.theme.MineHostBlue
 import com.example.ui.theme.MineHostBackgroundBottom
 
 /**
- * A safe wrapper for loading local raster resources (JPG, PNG, WebP) using Coil.
- * painterResource() can crash if a resource is malformed or resolution fails.
+ * A safe wrapper for loading local resources.
+ * Updated to remove Coil dependency for wizard stability.
  */
 @Composable
 fun SafeResourceImage(
@@ -31,20 +29,11 @@ fun SafeResourceImage(
     contentScale: ContentScale = ContentScale.Fit,
     fallback: @Composable () -> Unit = { DefaultFallback() }
 ) {
-    SubcomposeAsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(resId)
-            .crossfade(true)
-            .build(),
+    Image(
+        painter = painterResource(id = resId),
         contentDescription = contentDescription,
         modifier = modifier,
-        contentScale = contentScale,
-        loading = {
-            Box(modifier = Modifier.fillMaxSize().background(Color.Transparent))
-        },
-        error = {
-            fallback()
-        }
+        contentScale = contentScale
     )
 }
 

@@ -18,8 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -60,10 +59,11 @@ fun PerformanceStep(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    com.example.ui.components.SafeResourceImage(
-                        resId = com.example.R.drawable.memory_icon,
+                    Icon(
+                        imageVector = Icons.Outlined.Memory,
                         contentDescription = null,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(24.dp),
+                        tint = WizardTheme.PrimaryBlue
                     )
                     Spacer(Modifier.width(8.dp))
                     Text("Memory (RAM)", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.ExtraBold))
@@ -103,10 +103,11 @@ fun PerformanceStep(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    com.example.ui.components.SafeResourceImage(
-                        resId = com.example.R.drawable.max_players_icon,
+                    Icon(
+                        imageVector = Icons.Outlined.People,
                         contentDescription = null,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(24.dp),
+                        tint = WizardTheme.PrimaryBlue
                     )
                     Spacer(Modifier.width(8.dp))
                     Text("Max Players", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.ExtraBold))
@@ -141,10 +142,11 @@ fun PerformanceStep(
         // Performance Profile
         Column {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                com.example.ui.components.SafeResourceImage(
-                    resId = com.example.R.drawable.performance_balanced,
+                Icon(
+                    imageVector = Icons.Outlined.Speed,
                     contentDescription = null,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(24.dp),
+                    tint = WizardTheme.PrimaryBlue
                 )
                 Spacer(Modifier.width(8.dp))
                 Text("Performance Profile", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.ExtraBold))
@@ -171,14 +173,14 @@ fun PerformanceStep(
         // Switches
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             SwitchRow(
-                iconResId = com.example.R.drawable.cpu_priority_icon,
+                icon = Icons.Outlined.Bolt,
                 title = "CPU Priority",
                 description = "Give your server higher CPU priority.",
                 checked = draft.cpuPriorityEnabled,
                 onCheckedChange = { onDraftUpdate(draft.copy(cpuPriorityEnabled = it)) }
             )
             SwitchRow(
-                iconResId = com.example.R.drawable.auto_restart_icon,
+                icon = Icons.Outlined.Refresh,
                 title = "Auto-Restart",
                 description = "Automatically restart if it crashes.",
                 checked = draft.autoRestartEnabled,
@@ -285,7 +287,7 @@ private fun ProfileCard(
 
 @Composable
 private fun SwitchRow(
-    @androidx.annotation.DrawableRes iconResId: Int,
+    icon: ImageVector,
     title: String,
     description: String,
     checked: Boolean,
@@ -301,10 +303,11 @@ private fun SwitchRow(
                 .background(WizardTheme.SoftBlue, RoundedCornerShape(12.dp)),
             contentAlignment = Alignment.Center
         ) {
-            com.example.ui.components.SafeResourceImage(
-                resId = iconResId,
+            Icon(
+                imageVector = icon,
                 contentDescription = null,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(24.dp),
+                tint = WizardTheme.PrimaryBlue
             )
         }
         Spacer(Modifier.width(12.dp))

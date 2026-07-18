@@ -1,21 +1,40 @@
 package com.example.ui.servercreation.components
  
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.ui.components.SafeResourceImage
-import androidx.compose.ui.layout.ContentScale
-import com.example.R
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import com.example.ui.servercreation.WizardTheme
 
 @Composable
 fun BasicsFloatingIslandArtwork(
     modifier: Modifier = Modifier
 ) {
-    SafeResourceImage(
-        resId = R.drawable.basics_floating_island,
-        contentDescription = "Floating server island artwork",
-        modifier = modifier,
-        contentScale = ContentScale.Fit
-    )
+    Box(
+        modifier = modifier
+            .background(
+                brush = Brush.linearGradient(
+                    colors = listOf(Color(0xFF6366F1), Color(0xFFA855F7))
+                )
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = Icons.Default.Landscape,
+            contentDescription = "Server illustration",
+            modifier = Modifier.size(64.dp),
+            tint = Color.White
+        )
+    }
 }
 
 @Composable
@@ -23,22 +42,25 @@ fun EngineArtwork(
     engineId: String,
     modifier: Modifier = Modifier
 ) {
-    SafeResourceImage(
-        resId = engineDrawable(engineId),
-        contentDescription = "Server engine artwork",
-        modifier = modifier,
-        contentScale = ContentScale.Fit
-    )
-}
-
-fun engineDrawable(engineId: String): Int {
-    return when (engineId) {
-        "bedrock_power_nukkit_x" -> R.drawable.engine_powernukkitx
-        "bedrock_power_nukkit" -> R.drawable.engine_powernukkit
-        "bedrock_cloudburst_nukkit" -> R.drawable.engine_cloudburst_nukkit
-        "nukkit-mot" -> R.drawable.engine_nukkit_mot
-        "bedrock_nukkit" -> R.drawable.engine_nukkit
-        else -> R.drawable.engine_nukkit // Fallback
+    val icon = when (engineId) {
+        "bedrock_power_nukkit_x" -> Icons.Default.Bolt
+        "bedrock_power_nukkit" -> Icons.Default.ElectricBolt
+        "bedrock_cloudburst_nukkit" -> Icons.Default.Cloud
+        "nukkit-mot" -> Icons.Default.Memory
+        "bedrock_nukkit" -> Icons.Default.Storage
+        else -> Icons.Default.Settings
+    }
+    
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            modifier = Modifier.size(32.dp),
+            tint = WizardTheme.PrimaryBlue
+        )
     }
 }
 
@@ -46,12 +68,17 @@ fun engineDrawable(engineId: String): Int {
 fun VersionArtwork(
     modifier: Modifier = Modifier
 ) {
-    SafeResourceImage(
-        resId = R.drawable.version_latest_stable,
-        contentDescription = "Latest stable version artwork",
-        modifier = modifier,
-        contentScale = ContentScale.Fit
-    )
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = Icons.Default.Inventory2,
+            contentDescription = null,
+            modifier = Modifier.size(32.dp),
+            tint = WizardTheme.PrimaryBlue
+        )
+    }
 }
 
 @Composable
@@ -59,19 +86,25 @@ fun WorldArtwork(
     worldType: String,
     modifier: Modifier = Modifier
 ) {
-    val resId = when (worldType.lowercase()) {
-        "survival" -> R.drawable.world_survival
-        "creative" -> R.drawable.world_creative
-        "adventure" -> R.drawable.world_adventure
-        "flat" -> R.drawable.world_flat
-        else -> R.drawable.world_survival
+    val icon = when (worldType.lowercase()) {
+        "survival" -> Icons.Default.Park
+        "creative" -> Icons.Default.Diamond
+        "adventure" -> Icons.Default.Explore
+        "flat" -> Icons.Default.Layers
+        else -> Icons.Default.Public
     }
-    SafeResourceImage(
-        resId = resId,
-        contentDescription = "$worldType world artwork",
-        modifier = modifier,
-        contentScale = ContentScale.Fit
-    )
+    
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            modifier = Modifier.size(32.dp),
+            tint = WizardTheme.PrimaryBlue
+        )
+    }
 }
 
 @Composable
@@ -79,40 +112,51 @@ fun PerformanceArtwork(
     profile: String,
     modifier: Modifier = Modifier
 ) {
-    val resId = when (profile.lowercase()) {
-        "low", "low_resource", "low resource" -> R.drawable.performance_low_resource
-        "balanced" -> R.drawable.performance_balanced
-        "performance", "high" -> R.drawable.performance_high
-        else -> R.drawable.performance_balanced
+    val icon = when (profile.lowercase()) {
+        "low", "low_resource", "low resource" -> Icons.Default.Eco
+        "balanced" -> Icons.Default.Balance
+        "performance", "high" -> Icons.Default.FlashOn
+        else -> Icons.Default.Balance
     }
-    SafeResourceImage(
-        resId = resId,
-        contentDescription = "$profile performance profile artwork",
-        modifier = modifier,
-        contentScale = ContentScale.Fit
-    )
+    
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            modifier = Modifier.size(32.dp),
+            tint = WizardTheme.PrimaryBlue
+        )
+    }
 }
 
 @Composable
 fun TunnelArtwork(
     modifier: Modifier = Modifier
 ) {
-    SafeResourceImage(
-        resId = R.drawable.network_tunnel,
-        contentDescription = "Secure network tunnel artwork",
-        modifier = modifier,
-        contentScale = ContentScale.Fit
-    )
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = Icons.Default.HdrStrong,
+            contentDescription = null,
+            modifier = Modifier.size(32.dp),
+            tint = WizardTheme.PrimaryBlue
+        )
+    }
 }
 
 @Composable
 fun ReviewSuccessArtwork(
     modifier: Modifier = Modifier
 ) {
-    SafeResourceImage(
-        resId = R.drawable.review_success,
-        contentDescription = "Server configuration ready",
+    Icon(
+        imageVector = Icons.Default.CheckCircle,
+        contentDescription = "Success",
         modifier = modifier,
-        contentScale = ContentScale.Fit
+        tint = WizardTheme.Success
     )
 }

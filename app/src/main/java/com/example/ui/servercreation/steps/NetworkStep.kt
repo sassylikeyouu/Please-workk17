@@ -10,8 +10,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -67,14 +65,15 @@ fun NetworkStep(
                                     modifier = Modifier.fillMaxSize().padding(4.dp)
                                 )
                             } else {
-                                com.example.ui.components.SafeResourceImage(
-                                    resId = when (mode) {
-                                        NetworkMode.LOCAL -> com.example.R.drawable.network_local_icon
-                                        NetworkMode.PUBLIC -> com.example.R.drawable.network_public_icon
-                                        else -> com.example.R.drawable.network_local_icon
+                                Icon(
+                                    imageVector = when (mode) {
+                                        NetworkMode.LOCAL -> Icons.Outlined.Home
+                                        NetworkMode.PUBLIC -> Icons.Outlined.Language
+                                        else -> Icons.Outlined.Home
                                     },
                                     contentDescription = null,
-                                    modifier = Modifier.size(24.dp)
+                                    modifier = Modifier.size(24.dp),
+                                    tint = WizardTheme.PrimaryBlue
                                 )
                             }
                         }

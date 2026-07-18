@@ -13,7 +13,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Dns
-import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PhotoCamera
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -22,16 +21,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import com.example.ui.servercreation.CreateServerDraft
 import com.example.ui.servercreation.WizardTheme
 import com.example.ui.servercreation.components.BasicsFloatingIslandArtwork
-import com.example.ui.servercreation.components.WizardCard
 import com.example.ui.servercreation.components.WizardInfoBanner
 
 @Composable
@@ -57,25 +52,13 @@ fun BasicsStep(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp)
-                .clip(RoundedCornerShape(WizardTheme.OptionCardRadius))
-                .background(WizardTheme.SoftBlue),
+                .clip(RoundedCornerShape(WizardTheme.OptionCardRadius)),
             contentAlignment = Alignment.Center
         ) {
-            // Background Artwork
+            // Background Artwork (Gradient + Landscape Vector)
             BasicsFloatingIslandArtwork(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .graphicsLayer(alpha = if (draft.artworkUri != null) 0.3f else 1.0f)
+                modifier = Modifier.fillMaxSize()
             )
-
-            if (draft.artworkUri != null) {
-                AsyncImage(
-                    model = draft.artworkUri,
-                    contentDescription = "Server Artwork",
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
-            }
 
             // Circular Choose Image Button
             Box(
@@ -91,10 +74,11 @@ fun BasicsStep(
                     },
                 contentAlignment = Alignment.Center
             ) {
-                com.example.ui.components.SafeResourceImage(
-                    resId = com.example.R.drawable.choose_image_icon,
+                Icon(
+                    imageVector = Icons.Outlined.PhotoCamera,
                     contentDescription = "Choose Image",
-                    modifier = Modifier.size(36.dp)
+                    modifier = Modifier.size(36.dp),
+                    tint = WizardTheme.PrimaryBlue
                 )
             }
         }

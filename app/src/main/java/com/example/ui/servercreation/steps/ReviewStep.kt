@@ -14,14 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
-import com.example.ui.components.SafeResourceImage
-import com.example.R
 import com.example.ui.servercreation.CreateServerDraft
 import com.example.ui.servercreation.NetworkMode
 import com.example.ui.servercreation.WizardTheme
@@ -69,16 +64,16 @@ fun ReviewStep(
                 .border(1.dp, WizardTheme.Border, RoundedCornerShape(WizardTheme.MainCardRadius))
                 .background(Color.White)
         ) {
-            ReviewRow(iconResId = R.drawable.review_engine_icon, label = "Engine", value = draft.engine?.name ?: "Bedrock")
-            ReviewRow(iconResId = R.drawable.review_version_icon, label = "Version", value = draft.version)
-            ReviewRow(iconResId = R.drawable.review_world_icon, label = "World Type", value = draft.worldType.label)
-            ReviewRow(iconResId = R.drawable.review_difficulty_icon, label = "Difficulty", value = draft.difficulty.label)
-            ReviewRow(iconResId = R.drawable.review_memory_icon, label = "Memory", value = "${draft.memoryMb} MB")
-            ReviewRow(iconResId = R.drawable.review_players_icon, label = "Max Players", value = draft.maxPlayers.toString())
-            ReviewRow(iconResId = R.drawable.port_icon, label = "Port", value = draft.port.toString())
-            ReviewRow(iconResId = R.drawable.review_network_icon, label = "Network Mode", value = draft.networkMode.label)
+            ReviewRow(icon = Icons.Outlined.Settings, label = "Engine", value = draft.engine?.name ?: "Bedrock")
+            ReviewRow(icon = Icons.Outlined.History, label = "Version", value = draft.version)
+            ReviewRow(icon = Icons.Outlined.Public, label = "World Type", value = draft.worldType.label)
+            ReviewRow(icon = Icons.Outlined.Flag, label = "Difficulty", value = draft.difficulty.label)
+            ReviewRow(icon = Icons.Outlined.Memory, label = "Memory", value = "${draft.memoryMb} MB")
+            ReviewRow(icon = Icons.Outlined.Person, label = "Max Players", value = draft.maxPlayers.toString())
+            ReviewRow(icon = Icons.Outlined.Lan, label = "Port", value = draft.port.toString())
+            ReviewRow(icon = Icons.Outlined.Wifi, label = "Network Mode", value = draft.networkMode.label)
             if (draft.networkMode == NetworkMode.TUNNEL) {
-                ReviewRow(iconResId = R.drawable.review_network_icon, label = "Tunnel Provider", value = draft.tunnelProvider.label)
+                ReviewRow(icon = Icons.Outlined.Security, label = "Tunnel Provider", value = draft.tunnelProvider.label)
             }
         }
     }
@@ -86,7 +81,7 @@ fun ReviewStep(
 
 @Composable
 private fun ReviewRow(
-    @androidx.annotation.DrawableRes iconResId: Int,
+    icon: ImageVector,
     label: String,
     value: String
 ) {
@@ -99,10 +94,11 @@ private fun ReviewRow(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                SafeResourceImage(
-                    resId = iconResId,
+                Icon(
+                    imageVector = icon,
                     contentDescription = null,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(24.dp),
+                    tint = WizardTheme.PrimaryBlue
                 )
                 Spacer(Modifier.width(12.dp))
                 Text(
