@@ -77,7 +77,7 @@ fun CreateServerWizardScreen(
                         style = MaterialTheme.typography.headlineMedium.copy(
                             fontWeight = FontWeight.ExtraBold,
                             color = WizardTheme.PrimaryText,
-                            fontSize = 32.sp
+                            fontSize = 28.sp
                         )
                     )
                     Spacer(Modifier.height(WizardTheme.TitleToSubtitle))
@@ -86,7 +86,7 @@ fun CreateServerWizardScreen(
                         style = MaterialTheme.typography.bodySmall.copy(
                             color = WizardTheme.PrimaryBlue,
                             fontWeight = FontWeight.Medium,
-                            fontSize = 17.sp
+                            fontSize = 14.sp
                         )
                     )
                     Spacer(Modifier.height(WizardTheme.SubtitleToProgress))
