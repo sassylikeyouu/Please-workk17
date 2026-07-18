@@ -11,7 +11,7 @@ fun BasicsFloatingIslandArtwork(
     modifier: Modifier = Modifier
 ) {
     SafeResourceImage(
-        resId = R.drawable.review_world_icon,
+        resId = R.drawable.basics_floating_island,
         contentDescription = "Floating server island artwork",
         modifier = modifier,
         contentScale = ContentScale.Fit
@@ -47,7 +47,7 @@ fun VersionArtwork(
     modifier: Modifier = Modifier
 ) {
     SafeResourceImage(
-        resId = R.drawable.review_version_icon,
+        resId = R.drawable.version_latest_stable,
         contentDescription = "Latest stable version artwork",
         modifier = modifier,
         contentScale = ContentScale.Fit
@@ -80,7 +80,7 @@ fun PerformanceArtwork(
     modifier: Modifier = Modifier
 ) {
     val resId = when (profile.lowercase()) {
-        "low", "low_resource", "low resource" -> R.drawable.performance_balanced
+        "low", "low_resource", "low resource" -> R.drawable.performance_low_resource
         "balanced" -> R.drawable.performance_balanced
         "performance", "high" -> R.drawable.performance_high
         else -> R.drawable.performance_balanced

@@ -72,13 +72,13 @@ fun ReviewStep(
             ReviewRow(iconResId = R.drawable.review_engine_icon, label = "Engine", value = draft.engine?.name ?: "Bedrock")
             ReviewRow(iconResId = R.drawable.review_version_icon, label = "Version", value = draft.version)
             ReviewRow(iconResId = R.drawable.review_world_icon, label = "World Type", value = draft.worldType.label)
-            ReviewRow(iconResId = R.drawable.difficulty_normal, label = "Difficulty", value = draft.difficulty.label)
-            ReviewRow(iconResId = R.drawable.memory_icon, label = "Memory", value = "${draft.memoryMb} MB")
-            ReviewRow(iconResId = R.drawable.max_players_icon, label = "Max Players", value = draft.maxPlayers.toString())
+            ReviewRow(iconResId = R.drawable.review_difficulty_icon, label = "Difficulty", value = draft.difficulty.label)
+            ReviewRow(iconResId = R.drawable.review_memory_icon, label = "Memory", value = "${draft.memoryMb} MB")
+            ReviewRow(iconResId = R.drawable.review_players_icon, label = "Max Players", value = draft.maxPlayers.toString())
             ReviewRow(iconResId = R.drawable.port_icon, label = "Port", value = draft.port.toString())
-            ReviewRow(iconResId = R.drawable.network_local_icon, label = "Network Mode", value = draft.networkMode.label)
+            ReviewRow(iconResId = R.drawable.review_network_icon, label = "Network Mode", value = draft.networkMode.label)
             if (draft.networkMode == NetworkMode.TUNNEL) {
-                ReviewRow(iconResId = R.drawable.network_tunnel, label = "Tunnel Provider", value = draft.tunnelProvider.label)
+                ReviewRow(iconResId = R.drawable.review_network_icon, label = "Tunnel Provider", value = draft.tunnelProvider.label)
             }
         }
     }
