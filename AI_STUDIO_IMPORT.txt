@@ -1,7 +1,0 @@
-Replace the current project with this extracted project.
-
-Do not regenerate, redesign, simplify, or rewrite the supplied Jetpack Compose UI.
-Do not replace the existing server runtime.
-Run ./gradlew assembleDebug first.
-Only fix genuine compiler/import errors, and preserve the visual design, navigation, data flow, and backend architecture.
-Do not add fake players, fake performance values, fake marketplace installs, or fake account information.
