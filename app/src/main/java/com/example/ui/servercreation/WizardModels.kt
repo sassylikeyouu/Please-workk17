@@ -1,0 +1,67 @@
+package com.example.ui.servercreation
+
+import android.net.Uri
+import com.example.server.template.ServerTemplate
+
+enum class WizardStep(val title: String) {
+    BASICS("Basics"),
+    ENGINE("Engine"),
+    VERSION("Version"),
+    WORLD("World"),
+    PERFORMANCE("Performance"),
+    NETWORK("Network"),
+    REVIEW("Review")
+}
+
+enum class WorldType(val label: String, val description: String) {
+    SURVIVAL("Survival", "Gather resources, build, and survive in a challenging world."),
+    CREATIVE("Creative", "Unlimited blocks and flying. Build without limits."),
+    ADVENTURE("Adventure", "Explore custom maps and enjoy player-created stories."),
+    FLAT("Flat World", "A completely flat world, perfect for building big projects.")
+}
+
+enum class Difficulty(val label: String) {
+    EASY("Easy"),
+    NORMAL("Normal"),
+    HARD("Hard")
+}
+
+enum class PerformanceProfile(val label: String, val description: String, val tag: String) {
+    LOW_RESOURCE("Low Resource", "Best for low-end devices.", "Lower performance"),
+    BALANCED("Balanced", "Best balance of performance & stability.", "Recommended"),
+    PERFORMANCE("Performance", "Higher performance for powerful devices.", "Higher resource use")
+}
+
+enum class NetworkMode(val label: String, val description: String) {
+    LOCAL("Local Only", "Only playable on your local network."),
+    PUBLIC("Public Access (Coming Soon)", "Open to anyone over the internet."),
+    TUNNEL("Tunnel (Preview)", "Secure access through a tunnel connection.")
+}
+
+enum class TunnelProvider(val label: String, val description: String) {
+    LOCAL_TUNNEL("Local Tunnel (Preview)", "Expose your server via your machine."),
+    REGION_TUNNEL("Region Tunnel (Coming Soon)", "Use a nearby relay for better latency."),
+    PRIVATE_INVITE("Private Invite (Coming Soon)", "Invite-only access via a secure link.")
+}
+
+data class CreateServerDraft(
+    val artworkUri: Uri? = null,
+    val serverName: String = "",
+    val description: String = "",
+    val engine: ServerTemplate? = null,
+    val version: String = "1.20.80",
+    val worldType: WorldType = WorldType.SURVIVAL,
+    val difficulty: Difficulty = Difficulty.NORMAL,
+    val seed: String = "",
+    val worldName: String = "",
+    val memoryMb: Int = 1024,
+    val maxPlayers: Int = 10,
+    val performanceProfile: PerformanceProfile = PerformanceProfile.BALANCED,
+    val cpuPriorityEnabled: Boolean = true,
+    val autoRestartEnabled: Boolean = false,
+    val startupOptimizationEnabled: Boolean = true,
+    val networkMode: NetworkMode = NetworkMode.LOCAL,
+    val tunnelProvider: TunnelProvider = TunnelProvider.LOCAL_TUNNEL,
+    val port: Int = 19132,
+    val visibility: String = "Invite Only"
+)

@@ -1,0 +1,27 @@
+MineHost project verification report
+Generated: 2026-07-13
+
+Checks completed in the artifact environment:
+- Gradle wrapper JAR archive integrity: PASS
+- Gradle wrapper Main-Class manifest: PASS
+- AndroidManifest.xml and resource XML parsing: PASS (10 XML files)
+- GitHub Actions YAML parsing: PASS
+- Kotlin parser scan: PASS (no syntax/parser errors found across 77 Kotlin files)
+- Pure Kotlin core compile: PASS
+  ServerStatus.kt, FileManager.kt, MineHostModels.kt, ProcessMetricsReader.kt
+- LocalServerDataService compile with minimal Android API stubs: PASS
+- Own-package import resolution scan: PASS
+- Debug keystore validation: PASS
+- Stale removed-asset reference scan: PASS
+
+Full Android build status:
+- NOT COMPLETED in this container because the Gradle wrapper could not resolve
+  services.gradle.org (network/DNS unavailable in the artifact environment).
+- Run ./gradlew assembleDebug in AI Studio or Android Studio after extraction.
+- Only fix genuine compiler/import errors. Do not regenerate or simplify the UI.
+
+Implementation policy:
+- Runtime values are real or shown as unavailable; fake players, fake metrics,
+  fake marketplace installs, and fake account data were not added.
+- External account, cloud AI, online marketplace, and production tunnel services
+  remain explicitly unconfigured because no trusted backend or credentials were supplied.

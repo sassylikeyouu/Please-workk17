@@ -1,0 +1,326 @@
+package com.example.ui.servercreation.steps
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.ui.servercreation.CreateServerDraft
+import com.example.ui.servercreation.PerformanceProfile
+import com.example.ui.servercreation.WizardTheme
+import com.example.ui.servercreation.components.MineHostSlider
+import com.example.ui.servercreation.components.PerformanceArtwork
+import com.example.ui.servercreation.components.WizardInfoBanner
+
+@Composable
+fun PerformanceStep(
+    draft: CreateServerDraft,
+    onDraftUpdate: (CreateServerDraft) -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
+        Column {
+            Text(
+                "Performance & Resources",
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.ExtraBold),
+                color = WizardTheme.PrimaryText
+            )
+            Text(
+                "Configure the resources and performance settings for your server.",
+                style = MaterialTheme.typography.bodySmall,
+                color = WizardTheme.SecondaryText
+            )
+        }
+
+        // Memory Slider
+        Column {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    com.example.ui.components.SafeResourceImage(
+                        resId = com.example.R.drawable.memory_icon,
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text("Memory (RAM)", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.ExtraBold))
+                }
+                Surface(
+                    color = Color(0xFFF1F7FF),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Text(
+                        "${draft.memoryMb} MB",
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = WizardTheme.PrimaryBlue
+                        )
+                    )
+                }
+            }
+            Spacer(Modifier.height(16.dp))
+            MineHostSlider(
+                value = draft.memoryMb.toFloat(),
+                onValueChange = { onDraftUpdate(draft.copy(memoryMb = (it / 128).toInt() * 128)) },
+                valueRange = 512f..4096f
+            )
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Text("512 MB", style = MaterialTheme.typography.labelSmall, color = WizardTheme.SecondaryText)
+                Text("Recommended: 1024 MB", style = MaterialTheme.typography.labelSmall, color = WizardTheme.SecondaryText)
+                Text("4096 MB", style = MaterialTheme.typography.labelSmall, color = WizardTheme.SecondaryText)
+            }
+        }
+
+        // Max Players Slider
+        Column {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    com.example.ui.components.SafeResourceImage(
+                        resId = com.example.R.drawable.max_players_icon,
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text("Max Players", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.ExtraBold))
+                }
+                Surface(
+                    color = Color(0xFFF1F7FF),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Text(
+                        "${draft.maxPlayers}",
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = WizardTheme.PrimaryBlue
+                        )
+                    )
+                }
+            }
+            Spacer(Modifier.height(16.dp))
+            MineHostSlider(
+                value = draft.maxPlayers.toFloat(),
+                onValueChange = { onDraftUpdate(draft.copy(maxPlayers = it.toInt())) },
+                valueRange = 1f..50f
+            )
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                (1..5).forEach { i ->
+                    Text("${i * 10}", style = MaterialTheme.typography.labelSmall, color = WizardTheme.SecondaryText)
+                }
+            }
+        }
+
+        // Performance Profile
+        Column {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                com.example.ui.components.SafeResourceImage(
+                    resId = com.example.R.drawable.performance_balanced,
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(Modifier.width(8.dp))
+                Text("Performance Profile", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.ExtraBold))
+            }
+            Spacer(Modifier.height(12.dp))
+            // Performance Profile
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(horizontal = 16.dp)
+            ) {
+                items(PerformanceProfile.entries) { profile ->
+                    ProfileCard(
+                        profile = profile,
+                        selected = draft.performanceProfile == profile,
+                        onClick = { onDraftUpdate(draft.copy(performanceProfile = profile)) },
+                        modifier = Modifier.width(160.dp)
+                    )
+                }
+            }
+        }
+
+        // Switches
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            SwitchRow(
+                iconResId = com.example.R.drawable.cpu_priority_icon,
+                title = "CPU Priority",
+                description = "Give your server higher CPU priority.",
+                checked = draft.cpuPriorityEnabled,
+                onCheckedChange = { onDraftUpdate(draft.copy(cpuPriorityEnabled = it)) }
+            )
+            SwitchRow(
+                iconResId = com.example.R.drawable.auto_restart_icon,
+                title = "Auto-Restart",
+                description = "Automatically restart if it crashes.",
+                checked = draft.autoRestartEnabled,
+                onCheckedChange = { onDraftUpdate(draft.copy(autoRestartEnabled = it)) }
+            )
+        }
+
+
+        WizardInfoBanner(
+            text = "Recommended for this device: Balanced · 1024 MB\nThis provides the best balance of performance and stability."
+        )
+    }
+}
+
+@Composable
+private fun ProfileCard(
+    profile: PerformanceProfile,
+    selected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Surface(
+        onClick = onClick,
+        modifier = modifier,
+        shape = RoundedCornerShape(WizardTheme.OptionCardRadius),
+        color = Color.Transparent,
+        border = androidx.compose.foundation.BorderStroke(
+            width = if (selected) 2.dp else 1.dp,
+            color = if (selected) Color.Transparent else WizardTheme.Border
+        )
+    ) {
+        Box(
+            modifier = Modifier
+                .background(
+                    brush = if (selected) {
+                        Brush.linearGradient(
+                            listOf(WizardTheme.SelectedCardGradientLeft, WizardTheme.SelectedCardGradientRight)
+                        )
+                    } else {
+                        Brush.linearGradient(listOf(Color.White, Color.White))
+                    }
+                )
+                .then(
+                    if (selected) {
+                        Modifier.border(
+                            width = 1.dp,
+                            brush = Brush.linearGradient(
+                                listOf(WizardTheme.GradientLeft, WizardTheme.GradientRight)
+                            ),
+                            shape = RoundedCornerShape(WizardTheme.OptionCardRadius)
+                        )
+                    } else Modifier
+                )
+                .padding(12.dp)
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(Color.Transparent),
+                    contentAlignment = Alignment.Center
+                ) {
+                    PerformanceArtwork(
+                        profile = profile.label,
+                        modifier = Modifier.fillMaxSize().padding(6.dp)
+                    )
+                }
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    profile.label,
+                    style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.ExtraBold),
+                    color = if (selected) WizardTheme.PrimaryBlue else WizardTheme.PrimaryText
+                )
+                Text(
+                    profile.description,
+                    style = MaterialTheme.typography.bodySmall.copy(fontSize = 8.sp, lineHeight = 10.sp),
+                    color = WizardTheme.SecondaryText,
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                    minLines = 2
+                )
+                Spacer(Modifier.height(8.dp))
+                Surface(
+                    color = if (profile == PerformanceProfile.BALANCED) Color(0xFFE8F1FF) else Color(0xFFF1F4F9),
+                    shape = RoundedCornerShape(4.dp)
+                ) {
+                    Text(
+                        profile.tag,
+                        modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp),
+                        style = MaterialTheme.typography.labelSmall.copy(
+                            color = if (profile == PerformanceProfile.BALANCED) WizardTheme.PrimaryBlue else WizardTheme.SecondaryText,
+                            fontSize = 7.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SwitchRow(
+    @androidx.annotation.DrawableRes iconResId: Int,
+    title: String,
+    description: String,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(44.dp)
+                .background(WizardTheme.SoftBlue, RoundedCornerShape(12.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            com.example.ui.components.SafeResourceImage(
+                resId = iconResId,
+                contentDescription = null,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+        Spacer(Modifier.width(12.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(title, style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.ExtraBold))
+            Text(description, style = MaterialTheme.typography.bodySmall, color = WizardTheme.SecondaryText, fontSize = 11.sp)
+        }
+        Switch(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            colors = SwitchDefaults.colors(
+                checkedThumbColor = Color.White,
+                checkedTrackColor = WizardTheme.PrimaryBlue,
+                uncheckedThumbColor = Color.White,
+                uncheckedTrackColor = WizardTheme.Border
+            )
+        )
+    }
+}
