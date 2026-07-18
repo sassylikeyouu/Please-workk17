@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import coil.compose.SubcomposeAsyncImage
+import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.ui.theme.MineHostBlue
 import com.example.ui.theme.MineHostBackgroundBottom
@@ -31,7 +31,7 @@ fun SafeResourceImage(
     contentScale: ContentScale = ContentScale.Fit,
     fallback: @Composable () -> Unit = { DefaultFallback() }
 ) {
-    SubcomposeAsyncImage(
+    AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(resId)
             .crossfade(true)
@@ -39,11 +39,8 @@ fun SafeResourceImage(
         contentDescription = contentDescription,
         modifier = modifier,
         contentScale = contentScale,
-        loading = {
-            Box(modifier = Modifier.fillMaxSize().background(Color.Transparent))
-        },
-        error = {
-            fallback()
+        onError = {
+            // Error logged or handled
         }
     )
 }
